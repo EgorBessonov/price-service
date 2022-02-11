@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package priceService;
+
+option go_package = "github.com/EgorBessonov/price-service/internal/priceService";
+
+service Price{
+  rpc Get(GetRequest) returns (stream GetResponse);
+}
+
+message Share{
+  int32 name = 1;
+  float bid = 2;
+  float ask = 3;
+  string time = 4;
+}
+
+message GetRequest{
+  repeated int32 name = 1;
+}
+
+message GetResponse{
+  Share share = 1;
+}
