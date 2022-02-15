@@ -34,13 +34,7 @@ func main() {
 		}).Fatal("price service: can't create redis client")
 	}
 	shareMap := model.ShareMap{
-		Map: map[int32]map[string]*chan *model.Share{
-			1: {},
-			2: {},
-			3: {},
-			4: {},
-			5: {},
-		},
+		Map: map[int32]map[string]*chan *model.Share{},
 	}
 	mutex := sync.Mutex{}
 	cons := consumer.NewConsumer(redisClient, cfg.RedisStreamName, &shareMap, &mutex)

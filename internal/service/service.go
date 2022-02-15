@@ -28,11 +28,11 @@ func NewService(shareMap *model.ShareMap, mutex *sync.Mutex) *Service {
 func (s *Service) Get(request *priceService2.GetRequest, stream priceService2.Price_GetServer) error {
 	newUser := uuid.New().String()
 	shareChan := make(chan *model.Share)
+	s.mutex.Lock()
 	for _, shChan := range request.Name {
-		s.mutex.Lock()
 		s.ShareMap.Map[shChan][newUser] = &shareChan
-		s.mutex.Unlock()
 	}
+	s.mutex.Unlock()
 	for {
 		select {
 		case <-stream.Context().Done():

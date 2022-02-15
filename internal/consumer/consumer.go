@@ -53,6 +53,9 @@ func (consumer *Consumer) GetPrices(ctx context.Context) {
 					}).Error("consumer: can't parse message")
 				}
 				consumer.mutex.Lock()
+				if _, ok := consumer.ShareMap.Map[share.Name]; !ok {
+					consumer.ShareMap.Map[share.Name] = make(map[string]*chan *model.Share)
+				}
 				for _, ch := range consumer.ShareMap.Map[share.Name] {
 					*ch <- &share
 				}
